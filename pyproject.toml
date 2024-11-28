@@ -6,4 +6,6 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "fastapi[standard]>=0.112.1",
+    "pycryptodome>=3.21.0",
+    "pypdf2>=3.0.1",
 ]
