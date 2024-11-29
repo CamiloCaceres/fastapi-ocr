@@ -1,17 +1,98 @@
-# uv-fastapi-example
+# Information Extraction API
 
-An example of a [FastAPI](https://github.com/fastapi/fastapi) application managed as a
-[uv](https://github.com/astral-sh/uv) project.
+A FastAPI application for extracting information from PDF documents, specifically designed to parse Certificate of Enrollment (CoE) and visa documents.
 
-Based on the [multi-file example](https://fastapi.tiangolo.com/tutorial/bigger-applications/) from
-the FastAPI documentation.
+## Features
+
+- PDF parsing and information extraction
+- Secure API endpoints with token authentication
+- CORS support
+- Modular architecture following FastAPI best practices
+
+## Installation
+
+1. Clone the repository
+2. Install dependencies using [uv](https://github.com/astral-sh/uv):
+
+```bash
+uv sync --frozen --no-cache
+```
+
+Alternatively, install with pip:
+
+```bash
+pip install -r requirements.txt
+```
+
+## Environment Variables
+
+Create a `.env` file with the following variables:
+
+```
+API_SECRET_KEY=your_api_key_here
+QUERY_SECRET_KEY=your_query_key_here
+ALLOWED_ORIGINS=http://localhost:3000,https://yourdomain.com
+```
+
+## Running the Application
+
+### Using Docker
+
+```bash
+docker build -t info-extraction .
+docker run -p 80:80 info-extraction
+```
+
+### Local Development
+
+```bash
+uvicorn app.main:app --reload
+```
+
+## API Endpoints
+
+### Certificate of Enrollment (CoE) Parser
+
+```http
+POST /extract/coe
+```
+
+Extracts information from a CoE PDF document.
+
+**Returns:**
+- `provider`: Educational institution name
+- `course`: Course name
+- `start_date`: Course start date (DD/MM/YYYY)
+- `end_date`: Course end date (DD/MM/YYYY)
+
+### Visa Document Parser
+
+```http
+POST /extract/visa
+```
+
+Extracts information from visa documents.
+
+**Returns:**
+- `type`: Visa type (e.g., "Student (500)", "Temporary Graduate (485)")
+- `expiry_date`: Visa expiry date (YYYY-MM-DD)
+- `sector`: Sector information (if available)
+- `status`: Visa status ("Active" or "Not Active")
+
+## Authentication
+
+All endpoints require two types of authentication:
+1. Query token (`token` query parameter)
+2. API token (`X-Token` header for admin routes)
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Submit a pull request
 
 ## License
 
-MIT
+MIT License - See LICENSE file for details
 
-<div align="center">
-  <a target="_blank" href="https://astral.sh" style="background:none">
-    <img src="https://raw.githubusercontent.com/astral-sh/uv/main/assets/svg/Astral.svg" alt="Made by Astral">
-  </a>
-</div>
+Made by [Camilo caceres](https://github.com/camilocaceres)
