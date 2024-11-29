@@ -4,8 +4,7 @@ import dotenv
 import os
 from .dependencies import get_query_token, get_token_header
 from .internal import admin
-from .routers import items, users
-from .services import coe_scanner
+from .routers import extract
 
 app = FastAPI(dependencies=[Depends(get_query_token)])
 dotenv.load_dotenv()
@@ -20,8 +19,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(users.router)
-app.include_router(items.router)
+app.include_router(extract.router)
+
 app.include_router(
     admin.router,
     prefix="/admin",
@@ -33,10 +32,3 @@ app.include_router(
 @app.get("/")
 async def root():
     return {"message": "Hello Bigger Applications!"}
-
-@app.post("/parse-coe")
-async def parse_coe(file: UploadFile = File(...)):
-    if not file.filename.endswith('.pdf'):
-        return {"error": "File must be a PDF"}
-    
-    return await coe_scanner.process_pdf(file.file)
