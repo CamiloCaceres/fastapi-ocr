@@ -1,11 +1,13 @@
 [project]
-name = "uv-fastapi-example"
+name = "information-extraction"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "fastapi[standard]>=0.112.1",
+    "pillow>=11.0.0",
     "pycryptodome>=3.21.0",
     "pypdf2>=3.0.1",
+    "pytesseract>=0.3.13",
 ]
