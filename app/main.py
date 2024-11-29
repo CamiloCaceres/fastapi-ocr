@@ -4,7 +4,7 @@ import dotenv
 import os
 from .dependencies import get_query_token, get_token_header
 from .internal import admin
-from .routers import extract
+from .routers import extract, ocr
 
 app = FastAPI(dependencies=[Depends(get_query_token)])
 dotenv.load_dotenv()
@@ -20,6 +20,7 @@ app.add_middleware(
 )
 
 app.include_router(extract.router)
+app.include_router(ocr.router)
 
 app.include_router(
     admin.router,
